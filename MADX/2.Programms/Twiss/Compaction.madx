@@ -1,0 +1,29 @@
+CHDIR, DIR = "/Users/Bell/GIT_REPOS/Protvino/MADX/1.Sequences/Full Sequence";
+!CALL FILE = "Gold NICA.seq";
+CALL FILE = "U-70 full regular_compaction.seq";
+!CALL FILE = "Nuclotron 3FODO 270MeV.seq";
+!CALL FILE = "coupling1.seq";
+
+!beam, MASS=2.32283962,CHARGE=1, ENERGY=13.54435861,
+!      EX= 3.96e-005, EY=  3.1e-005, SIGE=   0.00156;
+
+!Protons
+!beam, MASS=1,CHARGE=1, ENERGY=69,
+!      EX= 3.96e-005, EY=  3.1e-005, SIGE=   0.00156;
+!Deutrons 270 MeV
+beam, MASS=1.862988122,CHARGE=1, ENERGY=2.402988122,
+      EX=2e-05, EY=2e-05, SIGE=0.001;
+
+USE, PERIOD = MACHINE;
+CHDIR, DIR = "/Users/Bell/GIT_REPOS/Protvino/MADX";
+
+ptc_create_universe;
+ptc_create_layout,model=2,method=6,nst=20,
+exact=true, closed_layout=true,time=false;
+select,flag=twiss,clear;
+select,FLAG=twiss,column=name ,s,l,beta11,
+beta22,beta33,disp1,disp2,disp3,disp4,
+beta12,beta13;
+ptc_twiss,table=twiss,icase=56,no=5, file=tbl/Twiss.tbl,
+closed_orbit, writetmap,deltap=0.0;
+ptc_end;
